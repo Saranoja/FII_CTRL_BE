@@ -1,0 +1,71 @@
+[
+  {
+    "subjects": [
+      "ga",
+      "graph-algorithms"
+    ],
+    "books": [
+      "Graph Theory by Reinhard Diestel"
+    ]
+  },
+  {
+    "subjects": [
+      "cn",
+      "computer-networks"
+    ],
+    "books": [
+      "Computer Networking - A Top-Down Approach by James Kurose and Keith Ross"
+    ]
+  },
+  {
+    "subjects": [
+      "acso"
+    ],
+    "books": [
+      "Computer Architecture - A Quantitative Approach by John Hennessy and David Patterson"
+    ]
+  },
+  {
+    "subjects": [
+      "sd",
+      "structuri-de-date",
+      "data-structures"
+    ],
+    "books": [
+      "Introduction to Algorithms by Thomas H Cormen",
+      "The Algorithm Design Manual by Steven S Skiena"
+    ]
+  },
+  {
+    "subjects": [
+      "is"
+    ],
+    "books": [
+      "Introduction to Computer Security by Matt Bishop"
+    ]
+  },
+  {
+    "subjects": [
+      "ic"
+    ],
+    "books": [
+      "Introduction to Modern Cryptography by Jonathan Katz and Yehuda Lindell"
+    ]
+  },
+  {
+    "subjects": [
+      "so"
+    ],
+    "books": [
+      "Modern Operating Systems by Andew Tanenbaum"
+    ]
+  },
+  {
+    "subjects": [
+      "pa"
+    ],
+    "books": [
+      "The Algorithm Design Manual by Steven S Skiena"
+    ]
+  }
+]
