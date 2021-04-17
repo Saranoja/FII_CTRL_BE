@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from config import *
@@ -8,6 +7,9 @@ from flask_restful import Api
 from services import *
 from routes import ROUTES
 from database_connection import db
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -39,4 +41,4 @@ api.add_resource(PdfArticlesController, ROUTES['articles'])
 api.add_resource(KeywordsArticlesController, ROUTES['articles-keywords'])
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
