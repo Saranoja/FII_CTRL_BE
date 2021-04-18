@@ -2,7 +2,6 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from config import *
-from config import JWT_SECRET_KEY
 from flask_restful import Api
 from services import *
 from routes import ROUTES
@@ -11,23 +10,25 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+def generate_connection_string():
+    try:
+        if os.environ['ENGINE'] == 'App_Engine':
+            return f'postgresql://{PGUSER}:{PGPASSWORD}@/{PGDATABASE}?host=/cloudsql/{PGCONNECTION}'
+    except KeyError:
+        return f'postgresql://{PGUSER}:{PGPASSWORD}@{PGHOST}:{PGPORT}/{PGDATABASE}'
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = JWT_SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{PGUSER}:{PGPASSWORD}@{PGHOST}:{PGPORT}/{PGDATABASE}'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = generate_connection_string()
 
 api = Api(app)
 jwt = JWTManager(app)
 cors = CORS(app)
 db.init_app(app)
-
-
-# Generating tables before first request is fetched
-@app.before_first_request
-def create_tables():
-    db.create_all()
-    db.session.commit()
-
 
 api.add_resource(SanityCheck, ROUTES['sanity'])
 api.add_resource(UsersService, ROUTES['users'])
