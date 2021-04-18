@@ -41,4 +41,4 @@ api.add_resource(PdfArticlesController, ROUTES['articles'])
 api.add_resource(KeywordsArticlesController, ROUTES['articles-keywords'])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

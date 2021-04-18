@@ -4,3 +4,4 @@ venv
 app.yaml
 .env
 __pycache__/*
+favicon.ico
