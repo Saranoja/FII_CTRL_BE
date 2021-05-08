@@ -30,6 +30,7 @@ jwt = JWTManager(app)
 cors = CORS(app)
 db.init_app(app)
 
+
 api.add_resource(SanityCheck, ROUTES['sanity'])
 api.add_resource(UsersService, ROUTES['users'])
 api.add_resource(Login, ROUTES['login'])

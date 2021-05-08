@@ -28,7 +28,7 @@ class Login(Resource):
 
         if bcrypt.check_password_hash(user.password, auth.password):
             access_token = create_access_token(identity=user.id, fresh=True,
-                                               expires_delta=datetime.timedelta(minutes=10))
+                                               expires_delta=datetime.timedelta(minutes=60))
             refresh_token = create_refresh_token(user.id)
 
             return make_response(jsonify({'token': access_token, 'refresh_token': refresh_token}), 200)

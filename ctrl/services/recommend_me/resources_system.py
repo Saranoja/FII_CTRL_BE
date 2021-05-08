@@ -1,3 +1,4 @@
+import logging
 import pdfminer
 import requests
 from flask_restful import Resource
@@ -30,7 +31,7 @@ class PdfBooksController(Resource):
         already_processed_file = ReferencesRepository.does_resource_exist(hashed_pdf)
 
         if already_processed_file:
-            print("File present in refereneces cache")
+            logging.info("File present in refereneces cache")
             return make_response(jsonify({'message': already_processed_file.references}), 200)
         else:
             keyphrases_rank = keywords_retriever.get_keyphrases_rank(pdf_text)
