@@ -1,5 +1,6 @@
 from repository.users_repository import UsersRepository
 from repository.references_repository import ReferencesRepository
 from repository.articles_repository import ArticlesRepository
+from repository.token_blacklist_repository import TokenBlacklistRepository
 
-__all__ = [UsersRepository, ReferencesRepository, ArticlesRepository]
+__all__ = [UsersRepository, ReferencesRepository, ArticlesRepository, TokenBlacklistRepository]

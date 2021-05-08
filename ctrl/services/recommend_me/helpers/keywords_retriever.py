@@ -1,4 +1,3 @@
-import pytextrank
 import re
 import spacy
 from statistics import mean

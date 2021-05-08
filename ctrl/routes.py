@@ -1,6 +1,7 @@
 ROUTES = {
     'sanity': '/',
     'login': '/login',
+    'logout': '/logout',
     'users': '/users',
     'current_user': '/current-user',
     'teaching': '/current-user/teaching',
