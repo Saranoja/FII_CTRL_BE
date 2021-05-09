@@ -10,4 +10,6 @@ ROUTES = {
     'resources-keywords': '/resources/<subject_id>/keywords',
     'articles': '/articles/pdf',
     'articles-keywords': '/articles/keywords',
+    'discussion-groups': '/discussion-groups',
+    'announcements': '/announcements/<discussion_group_id>',
 }

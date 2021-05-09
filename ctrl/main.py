@@ -4,7 +4,6 @@ from flask_cors import CORS
 from config import *
 from flask_restful import Api
 from services import *
-from repository import TokenBlacklistRepository
 from routes import ROUTES
 from database_connection import db
 from dotenv import load_dotenv
@@ -44,6 +43,9 @@ api.add_resource(PdfBooksController, ROUTES['resources'])
 api.add_resource(KeywordsBooksController, ROUTES['resources-keywords'])
 api.add_resource(PdfArticlesController, ROUTES['articles'])
 api.add_resource(KeywordsArticlesController, ROUTES['articles-keywords'])
+
+api.add_resource(DiscussionGroupsController, ROUTES['discussion-groups'])
+api.add_resource(AnnouncementsController, ROUTES['announcements'])
 
 if __name__ == '__main__':
     app.run()
