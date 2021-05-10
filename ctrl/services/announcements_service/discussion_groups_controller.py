@@ -4,6 +4,8 @@ from repository import DiscussionGroupsMembersRepository, DiscussionGroupsReposi
 from services.auth.token_config import token_required
 
 
+# TODO: check for possibility to upload avatar to GC
+
 class DiscussionGroupsController(Resource):
     @staticmethod
     @token_required
@@ -13,8 +15,10 @@ class DiscussionGroupsController(Resource):
         for group in current_user_groups:
             valid_discussion_group = DiscussionGroupsRepository.get_discussion_group_for_id(group.discussion_group_id)
             current_user_groups_extended.append({
-                "group_name": valid_discussion_group.name,
-                "group_id": valid_discussion_group.id
+                "name": valid_discussion_group.name,
+                "id": valid_discussion_group.id,
+                "avatar": "",
+                # "avatar": "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
             })
 
         return make_response(jsonify({'current_user_groups': current_user_groups_extended}), 200)

@@ -10,6 +10,8 @@ import logging
 from config import CURRENT_TIMEZONE
 
 
+# TODO: check for pagination on GET method
+
 class AnnouncementsController(Resource):
     @staticmethod
     @token_required
@@ -21,6 +23,7 @@ class AnnouncementsController(Resource):
 
         for announcement in announcements:
             announcements_extended.append({
+                "id": announcement.id,
                 "title": announcement.title,
                 "text": announcement.text,
                 "author": announcement.author,

@@ -14,7 +14,6 @@ def token_required(f, fresh=False):
             token = request.headers['Authorization']
 
         if not token:
-            print('Token is missing.')
             return make_response(jsonify({'message': 'Token is missing.', 'code': 'MISSING_TOKEN'}), 401)
 
         try:
@@ -22,11 +21,9 @@ def token_required(f, fresh=False):
             data = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
 
             if TokenBlacklistRepository.is_token_blacklisted(data['jti']):
-                print('Token is blacklisted')
                 return make_response(jsonify({'message': 'Token is invalid.', 'code': 'ID_TOKEN_INVALID'}), 401)
 
             if data['type'] == 'refresh':
-                print('Token must be id and not refresh')
                 return make_response(jsonify({'message': 'Token must be id and not refresh.'}), 401)
 
             if fresh and not data['fresh']:
@@ -34,7 +31,6 @@ def token_required(f, fresh=False):
 
             current_user = UsersRepository.is_user_valid(id=data['sub'])
         except Exception as e:
-            print('Token is invalid.')
             return make_response(jsonify({'message': 'Token is invalid.', 'code': 'ID_TOKEN_INVALID'}), 401)
 
         return f(current_user)
