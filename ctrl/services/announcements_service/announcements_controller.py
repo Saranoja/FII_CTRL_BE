@@ -1,4 +1,5 @@
 import pytz
+from flask_socketio import send
 from flask_restful import Resource
 from sqlalchemy import exc
 from flask import make_response, jsonify, request
@@ -54,6 +55,7 @@ class AnnouncementsController(Resource):
         except KeyError:
             return make_response(jsonify({"error": "Announcement structure incomplete"}), 400)
 
+        send('message', broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({"message": "New announcement posted successfully"}), 202)
 
     @staticmethod
@@ -71,6 +73,7 @@ class AnnouncementsController(Resource):
             logging.error(f"Announcement failed to be updated in : {group_id}")
             return make_response(jsonify({"error": "Could not add new announcement"}), 503)
 
+        send('message', broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({"message": "Announcement updated successfully"}), 200)
 
     @staticmethod
@@ -78,6 +81,7 @@ class AnnouncementsController(Resource):
     def delete(current_user):
         if not current_user.teaching:
             return make_response(jsonify({'message': 'User must be a teacher for this operation.'}), 403)
+        group_id = request.path.split('/')[2]
         announcement_id = request.args.get('id')
         try:
             AnnouncementsRepository.delete_announcement(announcement_id)
@@ -85,4 +89,5 @@ class AnnouncementsController(Resource):
             logging.error(f"Failed to delete announcement with id : {announcement_id}")
             return make_response(jsonify({"error": f"Failed to delete announcement for id {announcement_id}."}), 503)
 
+        send('message', broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({"message": "Announcement deleted successfully"}), 200)

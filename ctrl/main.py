@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
+from flask_socketio import SocketIO, join_room, leave_room, send
 from flask_cors import CORS
 from config import *
 from flask_restful import Api
@@ -7,7 +8,10 @@ from services import *
 from routes import ROUTES
 from database_connection import db
 from dotenv import load_dotenv
+from io_socket import AnnouncementsNamespace
+import logging
 
+logging.basicConfig(format='%(levelname)s - %(message)s', level=logging.INFO)
 load_dotenv()
 
 
@@ -28,7 +32,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = generate_connection_string()
 api = Api(app)
 jwt = JWTManager(app)
 cors = CORS(app)
+socketIO = SocketIO(app, cors_allowed_origins='*')
 db.init_app(app)
+
+socketIO.on_namespace(AnnouncementsNamespace(''))
 
 api.add_resource(SanityCheck, ROUTES['sanity'])
 api.add_resource(UsersService, ROUTES['users'])
@@ -48,4 +55,5 @@ api.add_resource(DiscussionGroupsController, ROUTES['discussion-groups'])
 api.add_resource(AnnouncementsController, ROUTES['announcements'])
 
 if __name__ == '__main__':
-    app.run()
+    socketIO.run(app)
+    # app.run(debug=True)
