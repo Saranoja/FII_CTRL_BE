@@ -16,3 +16,8 @@ class DiscussionGroupsMembersRepository:
             db.session.commit()
         except exc.SQLAlchemyError:
             db.session.rollback()
+
+    @staticmethod
+    def is_member_in_group(user_id, group_id):
+        user_discussion_groups = DiscussionGroupMember.query.filter(DiscussionGroupMember.user_id == user_id).all()
+        return int(group_id) in list(map(lambda x: x.discussion_group_id, user_discussion_groups))

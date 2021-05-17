@@ -1,26 +1,20 @@
 import logging
-from flask_socketio import Namespace, emit, join_room, leave_room
+from flask_socketio import Namespace, join_room, leave_room
 
 
 class AnnouncementsNamespace(Namespace):
-    @staticmethod
-    def on_connect():
+    def on_connect(self):
         logging.info('New connection')
 
-    @staticmethod
-    def on_join(data):
+    def on_join(self, data):
         room = data['room']
+        logging.info("User joined room")
         join_room(room)
 
-    @staticmethod
-    def on_leave(data):
+    def on_leave(self, data):
         room = data['room']
+        logging.info("User left room")
         leave_room(room)
 
-    @staticmethod
-    def on_disconnect():
+    def on_disconnect(self):
         logging.info('Client disconnected')
-
-    @staticmethod
-    def on_my_event(data):
-        emit('my_response', data)

@@ -56,4 +56,3 @@ api.add_resource(AnnouncementsController, ROUTES['announcements'])
 
 if __name__ == '__main__':
     socketIO.run(app)
-    # app.run(debug=True)
