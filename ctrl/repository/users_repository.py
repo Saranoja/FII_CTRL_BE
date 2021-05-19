@@ -20,3 +20,8 @@ class UsersRepository:
     def get_user_by_username(username):
         user = User.query.filter(func.lower(User.username) == username.lower()).first()
         return user if user else False
+
+    @staticmethod
+    def get_user_for_id(user_id):
+        user = User.query.filter(User.id == user_id).first()
+        return user if user else False

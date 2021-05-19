@@ -27,6 +27,13 @@ class AnnouncementsRepository:
         return Announcement.query.filter(Announcement.discussion_group_id == group_id).all()
 
     @staticmethod
+    def get_announcements_by_author(author_id: int):
+        f"""
+            :return: a list of all the announcements posted by the author with {author_id}
+            """
+        return Announcement.query.filter(Announcement.author_id == author_id).all()
+
+    @staticmethod
     def add_new_announcement(announcement: Announcement):
         try:
             db.session.add(announcement)

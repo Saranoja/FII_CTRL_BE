@@ -29,6 +29,7 @@ app.config['SECRET_KEY'] = JWT_SECRET_KEY
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = ACCESS_EXPIRES
 
 app.config['SQLALCHEMY_DATABASE_URI'] = generate_connection_string()
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}
 api = Api(app)
 jwt = JWTManager(app)
 cors = CORS(app)
