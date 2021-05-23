@@ -1,0 +1,3 @@
+from services.groups_members_controller.groups_members_controller import GroupsMembersController
+
+all = [GroupsMembersController]

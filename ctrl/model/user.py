@@ -9,6 +9,7 @@ class User(db.Model):
     password = db.Column("password", String, nullable=False)
     admin = db.Column("admin", Boolean, nullable=False)
     teaching = db.Column("teaching", Boolean, nullable=False)
+    student = db.Column("student", Boolean, nullable=False)
     first_name = db.Column("first_name", String, nullable=False)
     last_name = db.Column("last_name", String, nullable=False)
     year = db.Column("_year", String, nullable=True)

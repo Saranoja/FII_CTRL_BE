@@ -54,6 +54,13 @@ api.add_resource(KeywordsArticlesController, ROUTES['articles-keywords'])
 
 api.add_resource(DiscussionGroupsController, ROUTES['discussion-groups'])
 api.add_resource(AnnouncementsController, ROUTES['announcements'])
+api.add_resource(ProfileController, ROUTES['profile'])
+
+api.add_resource(StudentsService, ROUTES['students'])
+api.add_resource(TeachersService, ROUTES['teachers'])
+
+api.add_resource(GroupsMembersController, ROUTES['groups'])
+api.add_resource(GroupsController, ROUTES['create-group'])
 
 if __name__ == '__main__':
     socketIO.run(app)

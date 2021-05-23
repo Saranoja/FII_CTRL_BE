@@ -11,5 +11,10 @@ ROUTES = {
     'articles': '/articles/pdf',
     'articles-keywords': '/articles/keywords',
     'discussion-groups': '/discussion-groups',
+    'create-group': '/create-group',
+    'groups': '/groups/<group_id>',
     'announcements': '/announcements/<discussion_group_id>',
+    'profile': '/profile/<teacher_id>',
+    'students': '/students',
+    'teachers': '/teachers'
 }

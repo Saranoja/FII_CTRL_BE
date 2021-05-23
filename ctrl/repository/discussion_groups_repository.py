@@ -26,3 +26,4 @@ class DiscussionGroupsRepository:
             db.session.commit()
         except exc.SQLAlchemyError:
             db.session.rollback()
+        return group.id

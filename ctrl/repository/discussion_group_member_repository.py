@@ -16,6 +16,7 @@ class DiscussionGroupsMembersRepository:
             db.session.commit()
         except exc.SQLAlchemyError:
             db.session.rollback()
+            raise exc.SQLAlchemyError
 
     @staticmethod
     def is_member_in_group(user_id, group_id):

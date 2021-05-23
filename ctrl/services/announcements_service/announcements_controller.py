@@ -107,7 +107,7 @@ class AnnouncementsController(Resource):
             }
             send(notification_data, broadcast=True, namespace='', to=int(group_id))
             logging.error(f"Announcement failed to be updated in : {group_id}")
-            return make_response(jsonify({"error": "Could not add new announcement"}), 503)
+            return make_response(jsonify({"error": "Could not update announcement"}), 503)
 
         notification_data = {
             'event': 'patch',

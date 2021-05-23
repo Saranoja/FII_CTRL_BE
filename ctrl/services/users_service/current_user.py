@@ -9,7 +9,7 @@ class CurrentUser(Resource):
     def get(current_user):
         if current_user.teaching:
             current_user_data = {
-                'id': current_user.id,
+                'id': current_user.id, 'email': current_user.username,
                 'first_name': current_user.first_name, 'last_name': current_user.last_name,
                 'teaching': current_user.teaching, 'admin': current_user.admin}
         else:
