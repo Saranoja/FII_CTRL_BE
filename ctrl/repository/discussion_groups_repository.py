@@ -27,3 +27,13 @@ class DiscussionGroupsRepository:
         except exc.SQLAlchemyError:
             db.session.rollback()
         return group.id
+
+    @staticmethod
+    def delete_group(group_id: int):
+        try:
+            target_announcement = DiscussionGroup.query.filter(DiscussionGroup.id == group_id).first()
+            db.session.delete(target_announcement)
+            db.session.commit()
+        except exc.SQLAlchemyError:
+            db.session.rollback()
+            raise exc.SQLAlchemyError

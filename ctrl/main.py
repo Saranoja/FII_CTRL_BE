@@ -59,8 +59,8 @@ api.add_resource(ProfileController, ROUTES['profile'])
 api.add_resource(StudentsService, ROUTES['students'])
 api.add_resource(TeachersService, ROUTES['teachers'])
 
-api.add_resource(GroupsMembersController, ROUTES['groups'])
-api.add_resource(GroupsController, ROUTES['create-group'])
+api.add_resource(GroupsMembersController, ROUTES['groups_members'])
+api.add_resource(GroupsController, ROUTES['groups'])
 
 if __name__ == '__main__':
     socketIO.run(app)

@@ -49,7 +49,7 @@ class ProfileController(Resource):
         teacher_id = int(request.path.split('/')[2])
 
         if not current_user.teaching or current_user.id != teacher_id:
-            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 403)
+            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
 
         updated_profile_data = request.get_json()
 

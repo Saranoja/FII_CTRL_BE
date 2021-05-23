@@ -86,10 +86,16 @@ class AnnouncementsController(Resource):
     @staticmethod
     @token_required
     def patch(current_user):
-        if not current_user.teaching:
-            return make_response(jsonify({'message': 'User must be a teacher for this operation.'}), 403)
         group_id = request.path.split('/')[2]
+
         announcement_id = request.args.get('id')
+        announcement_author_id = AnnouncementsRepository.get_announcement_with_id(announcement_id).author_id
+
+        if not current_user.teaching \
+                or not DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id) \
+                or current_user.id != announcement_author_id:
+            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
+
         updated_announcement_data = request.get_json()
         print(updated_announcement_data)
 
@@ -124,10 +130,15 @@ class AnnouncementsController(Resource):
     @staticmethod
     @token_required
     def delete(current_user):
-        if not current_user.teaching:
-            return make_response(jsonify({'message': 'User must be a teacher for this operation.'}), 403)
         group_id = request.path.split('/')[2]
         announcement_id = request.args.get('id')
+        announcement_author_id = AnnouncementsRepository.get_announcement_with_id(announcement_id).author_id
+
+        if not current_user.teaching \
+                or not DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id) \
+                or current_user.id != announcement_author_id:
+            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
+
         try:
             AnnouncementsRepository.delete_announcement(announcement_id)
         except exc.SQLAlchemyError:

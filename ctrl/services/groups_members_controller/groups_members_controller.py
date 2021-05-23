@@ -17,7 +17,7 @@ class GroupsMembersController(Resource):
 
         is_user_member = DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id)
         if not is_user_member:
-            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 403)
+            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
 
         try:
             for uid in new_users_ids:
