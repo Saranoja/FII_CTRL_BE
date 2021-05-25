@@ -62,5 +62,7 @@ api.add_resource(TeachersService, ROUTES['teachers'])
 api.add_resource(GroupsMembersController, ROUTES['groups_members'])
 api.add_resource(GroupsController, ROUTES['groups'])
 
+api.add_resource(FilesManager, ROUTES['files'])
+
 if __name__ == '__main__':
     socketIO.run(app)

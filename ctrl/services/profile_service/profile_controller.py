@@ -1,17 +1,10 @@
-import pytz
-from flask_socketio import send, emit
 from flask_restful import Resource
 from sqlalchemy import exc
 from flask import make_response, jsonify, request
 from repository import TeachersSubjectsRepository, TeachersProfileDetailsRepository, UsersRepository, SubjectsRepository
-from model import Announcement
 from services.auth.token_config import token_required
 from datetime import datetime
 import logging
-from config import CURRENT_TIMEZONE
-
-
-# TODO: send notification to client
 
 class ProfileController(Resource):
     @staticmethod

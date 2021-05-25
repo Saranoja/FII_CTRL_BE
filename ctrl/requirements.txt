@@ -19,3 +19,5 @@ psycopg2~=2.8.6
 flask-socketio~=5.0.1
 pdfminer~=20191125
 pytz~=2021.1
+google-cloud-core~=1.6.0
+google-cloud-storage~=1.38.0

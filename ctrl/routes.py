@@ -16,5 +16,6 @@ ROUTES = {
     'announcements': '/announcements/<discussion_group_id>',
     'profile': '/profile/<teacher_id>',
     'students': '/students',
-    'teachers': '/teachers'
+    'teachers': '/teachers',
+    'files': '/files',
 }
