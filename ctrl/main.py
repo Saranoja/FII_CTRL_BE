@@ -64,5 +64,7 @@ api.add_resource(GroupsController, ROUTES['groups'])
 
 api.add_resource(FilesManager, ROUTES['files'])
 
+api.add_resource(AssignmentsController, ROUTES['assignments'])
+
 if __name__ == '__main__':
     socketIO.run(app)

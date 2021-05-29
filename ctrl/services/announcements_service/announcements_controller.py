@@ -59,6 +59,7 @@ class AnnouncementsController(Resource):
         except exc.SQLAlchemyError:
             logging.error(f"Announcement failed to be posted in : {group_id} by {current_user.id}")
             notification_data = {
+                'domain': 'announcements',
                 'event': 'post',
                 'type': 'error',
                 'author_id': current_user.id,
@@ -72,6 +73,7 @@ class AnnouncementsController(Resource):
             return make_response(jsonify({"error": "Announcement structure incomplete"}), 400)
 
         notification_data = {
+            'domain': 'announcements',
             'event': 'post',
             'type': 'success',
             'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
@@ -97,12 +99,12 @@ class AnnouncementsController(Resource):
             return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
 
         updated_announcement_data = request.get_json()
-        print(updated_announcement_data)
 
         try:
             AnnouncementsRepository.update_announcement(announcement_id, updated_announcement_data)
         except exc.SQLAlchemyError:
             notification_data = {
+                'domain': 'announcements',
                 'event': 'patch',
                 'type': 'error',
                 'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
@@ -116,6 +118,7 @@ class AnnouncementsController(Resource):
             return make_response(jsonify({"error": "Could not update announcement"}), 503)
 
         notification_data = {
+            'domain': 'announcements',
             'event': 'patch',
             'type': 'success',
             'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
@@ -143,6 +146,7 @@ class AnnouncementsController(Resource):
             AnnouncementsRepository.delete_announcement(announcement_id)
         except exc.SQLAlchemyError:
             notification_data = {
+                'domain': 'announcements',
                 'event': 'delete',
                 'type': 'error',
                 'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
@@ -156,6 +160,7 @@ class AnnouncementsController(Resource):
             return make_response(jsonify({"error": f"Failed to delete announcement for id {announcement_id}."}), 503)
 
         notification_data = {
+            'domain': 'announcements',
             'event': 'delete',
             'type': 'success',
             'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,

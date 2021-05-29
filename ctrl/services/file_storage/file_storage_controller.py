@@ -16,4 +16,4 @@ class FilesManager(Resource):
 
         stored_filename, stored_file_url = upload_file(request_file)
 
-        return make_response(jsonify({"public_url": stored_file_url, "name": stored_filename.decode("utf-8") }), 200)
+        return make_response(jsonify({"public_url": stored_file_url, "name": stored_filename }), 200)

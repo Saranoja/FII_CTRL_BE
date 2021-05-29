@@ -8,8 +8,9 @@ from services.profile_service import ProfileController
 from services.groups_members_controller import GroupsMembersController
 from services.groups_service import GroupsController
 from services.file_storage import FilesManager
+from services.assignments_service import AssignmentsController
 
 all = [SanityCheck, UsersService, CurrentUser, Teaching, Login, TokenRefresh, Logout, PdfBooksController,
        KeywordsBooksController, KeywordsArticlesController, PdfArticlesController, DiscussionGroupsController,
        AnnouncementsController, ProfileController, TeachersService, StudentsService, GroupsMembersController,
-       GroupsController, FilesManager]
+       GroupsController, FilesManager, AssignmentsController]

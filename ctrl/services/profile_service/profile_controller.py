@@ -6,6 +6,7 @@ from services.auth.token_config import token_required
 from datetime import datetime
 import logging
 
+
 class ProfileController(Resource):
     @staticmethod
     @token_required

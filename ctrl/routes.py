@@ -18,4 +18,5 @@ ROUTES = {
     'students': '/students',
     'teachers': '/teachers',
     'files': '/files',
+    'assignments': '/assignments/<group_id>',
 }

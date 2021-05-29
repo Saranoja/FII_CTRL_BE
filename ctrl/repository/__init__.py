@@ -8,7 +8,8 @@ from repository.discussion_group_member_repository import DiscussionGroupsMember
 from repository.subjects_repository import SubjectsRepository
 from repository.teacher_profile_details_repository import TeachersProfileDetailsRepository
 from repository.teacher_subject_repository import TeachersSubjectsRepository
+from repository.assignments_repository import AssignmentsRepository
 
 __all__ = [UsersRepository, ReferencesRepository, ArticlesRepository, TokenBlacklistRepository, AnnouncementsRepository,
            DiscussionGroupsRepository, DiscussionGroupsMembersRepository, SubjectsRepository,
-           TeachersProfileDetailsRepository, TeachersSubjectsRepository]
+           TeachersProfileDetailsRepository, TeachersSubjectsRepository, AssignmentsRepository]
