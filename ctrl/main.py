@@ -52,7 +52,6 @@ api.add_resource(KeywordsBooksController, ROUTES['resources-keywords'])
 api.add_resource(PdfArticlesController, ROUTES['articles'])
 api.add_resource(KeywordsArticlesController, ROUTES['articles-keywords'])
 
-api.add_resource(DiscussionGroupsController, ROUTES['discussion-groups'])
 api.add_resource(AnnouncementsController, ROUTES['announcements'])
 api.add_resource(ProfileController, ROUTES['profile'])
 

@@ -1,4 +1,3 @@
-from services.announcements_service.discussion_groups_controller import DiscussionGroupsController
 from services.announcements_service.announcements_controller import AnnouncementsController
 
-all = [DiscussionGroupsController, AnnouncementsController]
+all = [AnnouncementsController]

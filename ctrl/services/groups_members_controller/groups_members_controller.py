@@ -9,14 +9,11 @@ class GroupsMembersController(Resource):
     @staticmethod
     @token_required
     def put(current_user):
-        if not current_user.teaching:
-            return make_response(jsonify({'message': 'User must be a teacher for this operation.'}), 403)
-
         group_id = request.path.split('/')[2]
         new_users_ids = request.get_json()['id']
 
         is_user_member = DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id)
-        if not is_user_member:
+        if not current_user.admin and not (is_user_member and current_user.teaching):
             return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
 
         try:
@@ -26,3 +23,21 @@ class GroupsMembersController(Resource):
             return make_response(jsonify({'message': 'Error while adding users to group.'}), 200)
 
         return make_response(jsonify({'message': 'Users added successfully.'}), 200)
+
+    @staticmethod
+    @token_required
+    def delete(current_user):
+        group_id = request.path.split('/')[2]
+        deleting_users_ids = request.get_json()['id']
+
+        is_user_member = DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id)
+        if not current_user.admin and not (is_user_member and current_user.teaching):
+            return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
+
+        try:
+            for uid in deleting_users_ids:
+                DiscussionGroupsMembersRepository.delete_member_from_group(uid, group_id)
+        except exc.SQLAlchemyError:
+            return make_response(jsonify({'message': 'Error while deleting user from group.'}), 200)
+
+        return make_response(jsonify({'message': 'Users removed successfully.'}), 200)

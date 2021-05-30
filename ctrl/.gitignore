@@ -7,4 +7,4 @@ __pycache__/*
 favicon.ico
 */__pycache__/*
 fii-ctrl-0c2c8eddeaed.json
-!**/__pycache__/
+**/__pycache__/**

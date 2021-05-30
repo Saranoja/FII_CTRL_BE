@@ -22,3 +22,14 @@ class DiscussionGroupsMembersRepository:
     def is_member_in_group(user_id, group_id):
         user_discussion_groups = DiscussionGroupMember.query.filter(DiscussionGroupMember.user_id == user_id).all()
         return int(group_id) in list(map(lambda x: x.discussion_group_id, user_discussion_groups))
+
+    @staticmethod
+    def delete_member_from_group(user_id, group_id):
+        try:
+            target_member = DiscussionGroupMember.query.filter(
+                DiscussionGroupMember.user_id == user_id and DiscussionGroupMember.discussion_group_id == group_id).first()
+            db.session.delete(target_member)
+            db.session.commit()
+        except exc.SQLAlchemyError:
+            db.session.rollback()
+            raise exc.SQLAlchemyError

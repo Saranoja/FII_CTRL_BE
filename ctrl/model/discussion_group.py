@@ -6,3 +6,4 @@ class DiscussionGroup(db.Model):
     __tablename__ = "DiscussionGroups"
     id = db.Column("id", Integer, primary_key=True, autoincrement=True)
     name = db.Column("name", String, nullable=False)
+    avatar = db.Column("avatar", String, nullable=True)
