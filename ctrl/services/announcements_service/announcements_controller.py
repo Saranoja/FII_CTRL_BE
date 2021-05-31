@@ -9,6 +9,7 @@ from model import Announcement
 from services.auth.token_config import token_required
 from datetime import datetime
 import logging
+from io_socket import sids
 from config import CURRENT_TIMEZONE
 
 
@@ -67,7 +68,7 @@ class AnnouncementsController(Resource):
                 'group_id': group_id,
                 'timestamp': datetime.now().timestamp(),
             }
-            emit('error', notification_data, broadcast=True, namespace='', to=int(group_id))
+            emit('error', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             return make_response(jsonify({"error": "Could not add new announcement"}), 503)
         except KeyError:
             return make_response(jsonify({"error": "Announcement structure incomplete"}), 400)
@@ -113,7 +114,7 @@ class AnnouncementsController(Resource):
                 'author_id': current_user.id,
                 'timestamp': datetime.now().timestamp(),
             }
-            send(notification_data, broadcast=True, namespace='', to=int(group_id))
+            send(notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             logging.error(f"Announcement failed to be updated in : {group_id}")
             return make_response(jsonify({"error": "Could not update announcement"}), 503)
 
@@ -155,7 +156,7 @@ class AnnouncementsController(Resource):
                 'author_id': current_user.id,
                 'timestamp': datetime.now().timestamp(),
             }
-            emit('error', notification_data, broadcast=True, namespace='', to=int(group_id))
+            emit('error', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             logging.error(f"Failed to delete announcement with id : {announcement_id}")
             return make_response(jsonify({"error": f"Failed to delete announcement for id {announcement_id}."}), 503)
 

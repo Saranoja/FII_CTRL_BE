@@ -1,9 +1,13 @@
 from flask_restful import Resource
 from sqlalchemy import exc
+from flask_socketio import emit
+from datetime import datetime
+from io_socket import sids
 from flask import make_response, jsonify, request
 from repository import DiscussionGroupsMembersRepository, DiscussionGroupsRepository
 from model import DiscussionGroup
 from services.auth.token_config import token_required
+import logging
 
 
 class GroupsController(Resource):
@@ -37,13 +41,39 @@ class GroupsController(Resource):
 
         new_group = DiscussionGroup(name=new_group_name)
         added_members_ids.append(current_user.id)
+        new_group_id = -1
 
         try:
             new_group_id = DiscussionGroupsRepository.add_new_discussion_group(new_group)
             for uid in added_members_ids:
                 DiscussionGroupsMembersRepository.add_new_member_to_group(uid, new_group_id)
         except exc.SQLAlchemyError:
-            return make_response(jsonify({'message': 'Error while creating new group.'}), 200)
+            notification_data = {
+                'domain': 'groups',
+                'event': 'post',
+                'type': 'error',
+                'group': DiscussionGroupsRepository.get_discussion_group_for_id(new_group_id).name,
+                'group_id': new_group_id,
+                'author': f'{current_user.first_name} {current_user.last_name}',
+                'author_id': current_user.id,
+                'timestamp': datetime.now().timestamp(),
+            }
+            emit('error_groups', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
+            return make_response(jsonify({'message': 'Error while creating new group.'}), 503)
+
+        notification_data = {
+            'domain': 'groups',
+            'event': 'post',
+            'type': 'success',
+            'group': DiscussionGroupsRepository.get_discussion_group_for_id(new_group_id).name,
+            'group_id': new_group_id,
+            'author': f'{current_user.first_name} {current_user.last_name}',
+            'author_id': current_user.id,
+            'timestamp': datetime.now().timestamp(),
+        }
+        all_current_sockets = list(map(lambda y: sids[y], filter(lambda x: x in added_members_ids, sids)))
+        for user_socket in all_current_sockets:
+            emit('groups', notification_data, broadcast=True, namespace='', to=user_socket)
 
         return make_response(jsonify({'message': 'Group created successfully.'}), 200)
 
@@ -59,11 +89,36 @@ class GroupsController(Resource):
                 group_id):
             return make_response(jsonify({'message': 'Unauthorized for this operation.'}), 401)
 
+        group_name = DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name
+
         try:
             DiscussionGroupsRepository.delete_group(group_id)
+            DiscussionGroupsMembersRepository.delete_all_members_from_group(group_id)
         except exc.SQLAlchemyError:
-            return make_response(jsonify({'message': 'Error while deleting group.'}), 200)
+            notification_data = {
+                'domain': 'groups',
+                'event': 'delete',
+                'type': 'error',
+                'group': group_name,
+                'group_id': group_id,
+                'author': f'{current_user.first_name} {current_user.last_name}',
+                'author_id': current_user.id,
+                'timestamp': datetime.now().timestamp(),
+            }
+            emit('error_groups', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
+            return make_response(jsonify({'message': 'Error while deleting group.'}), 503)
 
+        notification_data = {
+            'domain': 'groups',
+            'event': 'delete',
+            'type': 'success',
+            'group': group_name,
+            'group_id': group_id,
+            'author': f'{current_user.first_name} {current_user.last_name}',
+            'author_id': current_user.id,
+            'timestamp': datetime.now().timestamp(),
+        }
+        emit('groups', notification_data, broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({'message': 'Group deleted successfully.'}), 200)
 
     @staticmethod
@@ -84,6 +139,6 @@ class GroupsController(Resource):
         try:
             DiscussionGroupsRepository.update_group(group_id, updated_group_data)
         except exc.SQLAlchemyError:
-            return make_response(jsonify({'message': 'Error while updating group.'}), 200)
+            return make_response(jsonify({'message': 'Error while updating group.'}), 503)
 
         return make_response(jsonify({'message': 'Group updated successfully.'}), 200)

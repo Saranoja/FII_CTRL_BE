@@ -33,3 +33,13 @@ class DiscussionGroupsMembersRepository:
         except exc.SQLAlchemyError:
             db.session.rollback()
             raise exc.SQLAlchemyError
+
+    @staticmethod
+    def delete_all_members_from_group(group_id):
+        try:
+            DiscussionGroupMember.query.filter(
+                DiscussionGroupMember.discussion_group_id == group_id).delete()
+            db.session.commit()
+        except exc.SQLAlchemyError:
+            db.session.rollback()
+            raise exc.SQLAlchemyError

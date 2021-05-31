@@ -1,3 +1,3 @@
-from io_socket.announcements_namespace import AnnouncementsNamespace
+from io_socket.announcements_namespace import AnnouncementsNamespace, sids
 
-all = [AnnouncementsNamespace]
+all = [AnnouncementsNamespace, sids]

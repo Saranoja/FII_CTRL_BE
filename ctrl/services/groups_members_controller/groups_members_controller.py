@@ -29,6 +29,7 @@ class GroupsMembersController(Resource):
     def delete(current_user):
         group_id = request.path.split('/')[2]
         deleting_users_ids = request.get_json()['id']
+        deleting_users_ids.append(current_user.id)
 
         is_user_member = DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id)
         if not current_user.admin and not (is_user_member and current_user.teaching):

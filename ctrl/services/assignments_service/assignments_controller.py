@@ -1,5 +1,5 @@
 import pytz
-from flask_socketio import send, emit
+from flask_socketio import emit
 from flask_restful import Resource
 from sqlalchemy import exc
 from flask import make_response, jsonify, request
@@ -8,6 +8,7 @@ from repository import AssignmentsRepository, DiscussionGroupsRepository, Discus
     UsersRepository, SubjectsRepository
 from services.auth.token_config import token_required
 from datetime import datetime
+from io_socket import sids
 import logging
 from config import CURRENT_TIMEZONE
 
@@ -77,7 +78,7 @@ class AssignmentsController(Resource):
                 'group_id': group_id,
                 'timestamp': datetime.now().timestamp(),
             }
-            emit('error_assignment', notification_data, broadcast=True, namespace='', to=int(group_id))
+            emit('error_assignment', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             return make_response(jsonify({"error": "Could not add new assignment"}), 503)
         except KeyError:
             return make_response(jsonify({"error": "Assignment structure incomplete"}), 400)
@@ -119,7 +120,7 @@ class AssignmentsController(Resource):
                 'author_id': current_user.id,
                 'timestamp': datetime.now().timestamp(),
             }
-            emit('error_assignment', notification_data, broadcast=True, namespace='', to=int(group_id))
+            emit('error_assignment', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             logging.error(f"Failed to delete assignment with id : {assignment_id}")
             return make_response(jsonify({"error": f"Failed to delete assignment for id {assignment_id}."}), 503)
 
@@ -164,7 +165,7 @@ class AssignmentsController(Resource):
                 'author_id': current_user.id,
                 'timestamp': datetime.now().timestamp(),
             }
-            emit('error_assignment', notification_data, broadcast=True, namespace='', to=int(group_id))
+            emit('error_assignment', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             logging.error(f"Assignment failed to be updated in : {group_id}")
             return make_response(jsonify({"error": "Could not update assignment"}), 503)
 
