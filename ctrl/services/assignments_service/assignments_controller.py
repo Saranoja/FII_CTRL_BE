@@ -1,4 +1,3 @@
-import pytz
 from flask_socketio import emit
 from flask_restful import Resource
 from sqlalchemy import exc
@@ -36,8 +35,8 @@ class AssignmentsController(Resource):
                 "description": assignment.description,
                 "author": f'{author.first_name} {author.last_name}',
                 "author_id": assignment.author_id,
-                "created_at": assignment.created_at.replace(tzinfo=pytz.utc).astimezone(CURRENT_TIMEZONE),
-                "deadline": assignment.deadline.replace(tzinfo=pytz.utc).astimezone(CURRENT_TIMEZONE),
+                "created_at": assignment.created_at,
+                "deadline": assignment.deadline,
                 "discussion_group_id": assignment.discussion_group_id,
                 "file_url": assignment.file_url
             })

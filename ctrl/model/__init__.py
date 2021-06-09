@@ -8,6 +8,7 @@ from model.subject import Subject
 from model.teacher_profile_details import TeacherProfileDetails
 from database_connection import db
 from model.assignment import Assignment
+from model.meeting import Meeting
 
 __all__ = [User, Reference, Article, TokenBlacklist, Announcement, DiscussionGroup, Subject, TeacherProfileDetails,
-           Assignment, db]
+           Assignment, Meeting, db]

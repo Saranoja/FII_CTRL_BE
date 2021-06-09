@@ -7,7 +7,6 @@ from flask import make_response, jsonify, request
 from repository import DiscussionGroupsMembersRepository, DiscussionGroupsRepository
 from model import DiscussionGroup
 from services.auth.token_config import token_required
-import logging
 
 
 class GroupsController(Resource):
@@ -139,6 +138,28 @@ class GroupsController(Resource):
         try:
             DiscussionGroupsRepository.update_group(group_id, updated_group_data)
         except exc.SQLAlchemyError:
+            notification_data = {
+                'domain': 'groups',
+                'event': 'patch',
+                'type': 'error',
+                'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
+                'group_id': group_id,
+                'author': f'{current_user.first_name} {current_user.last_name}',
+                'author_id': current_user.id,
+                'timestamp': datetime.now().timestamp(),
+            }
+            emit('error_groups', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             return make_response(jsonify({'message': 'Error while updating group.'}), 503)
 
+        notification_data = {
+            'domain': 'groups',
+            'event': 'patch',
+            'type': 'success',
+            'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
+            'group_id': group_id,
+            'author': f'{current_user.first_name} {current_user.last_name}',
+            'author_id': current_user.id,
+            'timestamp': datetime.now().timestamp(),
+        }
+        emit('groups', notification_data, broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({'message': 'Group updated successfully.'}), 200)

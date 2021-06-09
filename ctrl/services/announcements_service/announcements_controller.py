@@ -1,4 +1,3 @@
-import pytz
 from flask_socketio import send, emit
 from flask_restful import Resource
 from sqlalchemy import exc
@@ -32,7 +31,7 @@ class AnnouncementsController(Resource):
                 "text": announcement.text,
                 "author": f'{author.first_name} {author.last_name}',
                 "author_id": announcement.author_id,
-                "created_at": announcement.created_at.replace(tzinfo=pytz.utc).astimezone(CURRENT_TIMEZONE),
+                "created_at": announcement.created_at,
                 "discussion_group_id": announcement.discussion_group_id
             })
 
@@ -66,7 +65,7 @@ class AnnouncementsController(Resource):
                 'author_id': current_user.id,
                 'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
                 'group_id': group_id,
-                'timestamp': datetime.now().timestamp(),
+                'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
             }
             emit('error', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             return make_response(jsonify({"error": "Could not add new announcement"}), 503)
@@ -81,7 +80,7 @@ class AnnouncementsController(Resource):
             'group_id': group_id,
             'author': f'{current_user.first_name} {current_user.last_name}',
             'author_id': current_user.id,
-            'timestamp': datetime.now().timestamp(),
+            'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
         }
         send(notification_data, broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({"message": "New announcement posted successfully"}), 202)
@@ -112,7 +111,7 @@ class AnnouncementsController(Resource):
                 'group_id': group_id,
                 'author': f'{current_user.first_name} {current_user.last_name}',
                 'author_id': current_user.id,
-                'timestamp': datetime.now().timestamp(),
+                'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
             }
             send(notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             logging.error(f"Announcement failed to be updated in : {group_id}")
@@ -126,7 +125,7 @@ class AnnouncementsController(Resource):
             'group_id': group_id,
             'author': f'{current_user.first_name} {current_user.last_name}',
             'author_id': current_user.id,
-            'timestamp': datetime.now().timestamp(),
+            'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
         }
         send(notification_data, broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({"message": "Announcement updated successfully"}), 200)
@@ -154,7 +153,7 @@ class AnnouncementsController(Resource):
                 'group_id': group_id,
                 'author': f'{current_user.first_name} {current_user.last_name}',
                 'author_id': current_user.id,
-                'timestamp': datetime.now().timestamp(),
+                'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
             }
             emit('error', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             logging.error(f"Failed to delete announcement with id : {announcement_id}")
@@ -168,7 +167,7 @@ class AnnouncementsController(Resource):
             'group_id': group_id,
             'author': f'{current_user.first_name} {current_user.last_name}',
             'author_id': current_user.id,
-            'timestamp': datetime.now().timestamp(),
+            'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
         }
         send(notification_data, broadcast=True, namespace='', to=int(group_id))
         return make_response(jsonify({"message": "Announcement deleted successfully"}), 200)

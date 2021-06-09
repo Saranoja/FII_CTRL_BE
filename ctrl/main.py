@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from io_socket import AnnouncementsNamespace
 import logging
 
-logging.basicConfig(format='%(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(levelname)s - %(message)s', level=logging.WARNING)
 load_dotenv()
 
 
@@ -20,7 +20,7 @@ def generate_connection_string():
         if os.environ['ENGINE'] == 'App_Engine':
             return f'postgresql://{PGUSER}:{PGPASSWORD}@/{PGDATABASE}?host=/cloudsql/{PGCONNECTION}'
     except KeyError:
-        return f'postgresql://{PGUSER}:{PGPASSWORD}@{PGHOST}:{PGPORT}/{PGDATABASE}'
+        return f'postgresql://{PGUSER}:{PGPASSWORD}@{PGLOCALHOST}:{PGPORT}/{PGDATABASE}'
 
 
 app = Flask(__name__)
@@ -64,6 +64,8 @@ api.add_resource(GroupsController, ROUTES['groups'])
 api.add_resource(FilesManager, ROUTES['files'])
 
 api.add_resource(AssignmentsController, ROUTES['assignments'])
+
+api.add_resource(MeetingsController, ROUTES['meetings'])
 
 if __name__ == '__main__':
     socketIO.run(app)

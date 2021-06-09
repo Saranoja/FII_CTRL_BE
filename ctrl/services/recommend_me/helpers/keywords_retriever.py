@@ -1,6 +1,7 @@
 import re
 import spacy
 from statistics import mean
+import pytextrank
 
 word_tokenizer = re.compile("[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+")
 with open("services/recommend_me/helpers/stopwords_english.txt", encoding="utf-8") as stopwords_file:
@@ -12,17 +13,20 @@ def get_keyphrases_rank(text, no_of_keyphrases=20):
     nlp = spacy.load("en_core_web_sm")
 
     # add PyTextRank to the spaCy pipeline
-    # tr = pytextrank.TextRank()
     nlp.add_pipe("textrank")
 
     doc = nlp(text)
 
     # examine the top k-ranked phrases in the document
     # keyword_sentences = [p.text for phrase_number, p in enumerate(doc._.phrases) if phrase_number < keywords_number]
+
     keyphrase_rank = {p.text.lower(): p.rank for phrase_index, p in enumerate(doc._.phrases) if
                       phrase_index < no_of_keyphrases}
 
     return keyphrase_rank
+
+
+# print(get_keyphrases_rank('Compatibility of systems of linear constraints over the set of natural numbers. Criteria of compatibility of a system of linear Diophantine equations, strict inequations, and nonstrict inequations are considered.'))
 
 
 def expand_keyphrases_dict(keyphrases_rank: dict) -> dict:

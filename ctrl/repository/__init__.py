@@ -9,7 +9,8 @@ from repository.subjects_repository import SubjectsRepository
 from repository.teacher_profile_details_repository import TeachersProfileDetailsRepository
 from repository.teacher_subject_repository import TeachersSubjectsRepository
 from repository.assignments_repository import AssignmentsRepository
+from repository.meetings_repository import MeetingsRepository
 
 __all__ = [UsersRepository, ReferencesRepository, ArticlesRepository, TokenBlacklistRepository, AnnouncementsRepository,
            DiscussionGroupsRepository, DiscussionGroupsMembersRepository, SubjectsRepository,
-           TeachersProfileDetailsRepository, TeachersSubjectsRepository, AssignmentsRepository]
+           TeachersProfileDetailsRepository, TeachersSubjectsRepository, AssignmentsRepository, MeetingsRepository]
