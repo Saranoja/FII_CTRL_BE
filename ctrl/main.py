@@ -66,6 +66,7 @@ api.add_resource(FilesManager, ROUTES['files'])
 api.add_resource(AssignmentsController, ROUTES['assignments'])
 
 api.add_resource(MeetingsController, ROUTES['meetings'])
+api.add_resource(CalendarController, ROUTES['calendar'])
 
 if __name__ == '__main__':
     socketIO.run(app)

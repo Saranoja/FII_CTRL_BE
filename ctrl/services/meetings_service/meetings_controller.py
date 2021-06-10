@@ -29,7 +29,6 @@ class MeetingsController(Resource):
             next_meeting_occurrence = meeting.timestamp
             if meeting.recurrent:
                 while next_meeting_occurrence < datetime.now(CURRENT_TIMEZONE) - timedelta(minutes=30):
-                    print(f'{next_meeting_occurrence} < {datetime.now(CURRENT_TIMEZONE) - timedelta(minutes=30)}')
                     next_meeting_occurrence += meeting.recurrence_interval
 
             if next_meeting_occurrence > datetime.now(CURRENT_TIMEZONE) - timedelta(minutes=30):
@@ -37,6 +36,10 @@ class MeetingsController(Resource):
 
                 if abs(next_meeting_occurrence - datetime.now(CURRENT_TIMEZONE)) < timedelta(minutes=30):
                     is_joining_permitted = True
+
+                recurrence_interval = meeting.recurrence_interval
+                if recurrence_interval is not None:
+                    recurrence_interval = str(meeting.recurrence_interval).split(',')[0]
 
                 meetings_extended.append({
                     "id": meeting.id,
@@ -47,7 +50,7 @@ class MeetingsController(Resource):
                     "timestamp": meeting.timestamp,
                     "group_id": meeting.group_id,
                     "recurrent": meeting.recurrent,
-                    "recurrence_interval": str(meeting.recurrence_interval),
+                    "recurrence_interval": recurrence_interval,
                     "next_occurrence": next_meeting_occurrence,
                     "is_joining_permitted": is_joining_permitted
                 })

@@ -11,8 +11,9 @@ from services.groups_service import GroupsController
 from services.file_storage import FilesManager
 from services.assignments_service import AssignmentsController
 from services.meetings_service import MeetingsController
+from services.calendar_service import CalendarController
 
 all = [SanityCheck, UsersService, CurrentUser, Teaching, Login, TokenRefresh, Logout, PdfBooksController,
        KeywordsBooksController, KeywordsArticlesController, PdfArticlesController,
        AnnouncementsController, ProfileController, TeachersService, StudentsService, GroupsMembersController,
-       GroupsController, FilesManager, AssignmentsController, MeetingsController]
+       GroupsController, FilesManager, AssignmentsController, MeetingsController, CalendarController]
