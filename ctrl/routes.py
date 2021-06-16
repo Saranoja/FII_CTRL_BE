@@ -20,4 +20,5 @@ ROUTES = {
     'assignments': '/assignments/<group_id>',
     'meetings': '/meetings',
     'calendar': '/calendar',
+    'bibliography': '/bibliography/<subject_id>',
 }

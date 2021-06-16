@@ -3,7 +3,6 @@ from sqlalchemy import exc
 from flask import make_response, jsonify, request
 from repository import TeachersSubjectsRepository, TeachersProfileDetailsRepository, UsersRepository, SubjectsRepository
 from services.auth.token_config import token_required
-from datetime import datetime
 import logging
 
 
@@ -52,11 +51,4 @@ class ProfileController(Resource):
         except exc.SQLAlchemyError:
             logging.error(f"Details failed to be updated for teacher with id : {teacher_id}")
             return make_response(jsonify({"error": "Could not update details"}), 503)
-
-        notification_data = {
-            'event': 'patch',
-            'type': 'success',
-            'timestamp': datetime.now().timestamp(),
-        }
-
         return make_response(jsonify({"message": "Profile updated successfully"}), 200)

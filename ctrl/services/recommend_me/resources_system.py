@@ -9,7 +9,7 @@ from repository import ReferencesRepository, ArticlesRepository
 from model import Reference, Article
 from services.recommend_me.helpers import *
 import io
-import hashlib
+import xxhash
 import json
 
 arxiv_api_url = "http://export.arxiv.org/api/query?max_results=10&search_query=ti:"
@@ -22,11 +22,11 @@ class PdfBooksController(Resource):
         subject_id = request.path.split('/')[2]
         try:
             pdf_file = io.BytesIO(request.get_data())
-            pdf_text = extract_text(pdf_file)
+            pdf_text = extract_text(pdf_file, maxpages=100)
         except pdfminer.pdfparser.PDFSyntaxError:
             return make_response(jsonify({'message': 'File must be a PDF'}), 400)
 
-        hashed_pdf = hashlib.sha256(pdf_text.encode('utf-8')).hexdigest()
+        hashed_pdf = xxhash.xxh3_64(pdf_text.encode('utf-8')).hexdigest()
 
         already_processed_file = ReferencesRepository.does_resource_exist(hashed_pdf)
 
@@ -52,12 +52,12 @@ class KeywordsBooksController(Resource):
 
         keyphrases_rank = request.get_json()
 
-        hashed_json = hashlib.sha256(json.dumps(keyphrases_rank).encode('utf-8')).hexdigest()
+        hashed_json = xxhash.xxh3_64(json.dumps(keyphrases_rank).encode('utf-8')).hexdigest()
 
         already_processed_keywords_set = ReferencesRepository.does_resource_exist(hashed_json)
 
         if already_processed_keywords_set:
-            print("Keywords set present in refereneces cache")
+            logging.info("Keywords set present in references cache")
             return make_response(jsonify({'message': already_processed_keywords_set.references}), 200)
         else:
             expanded_keyphrases_rank = keywords_retriever.expand_keyphrases_dict(keyphrases_rank)
@@ -75,16 +75,16 @@ class PdfArticlesController(Resource):
     def post(current_user):
         try:
             pdf_file = io.BytesIO(request.get_data())
-            pdf_text = extract_text(pdf_file)
+            pdf_text = extract_text(pdf_file, maxpages=100)
         except pdfminer.pdfparser.PDFSyntaxError:
             return make_response(jsonify({'message': 'File must be a PDF'}), 400)
 
-        hashed_json = hashlib.sha256(json.dumps(pdf_text).encode('utf-8')).hexdigest()
+        hashed_json = xxhash.xxh3_64(json.dumps(pdf_text).encode('utf-8')).hexdigest()
 
         already_processed_keywords_set = ArticlesRepository.does_resource_exist(hashed_json)
 
         if already_processed_keywords_set:
-            print("Keywords set present in articles cache")
+            logging.info("Keywords set present in articles cache")
             return make_response(jsonify({'message': already_processed_keywords_set.references}), 200)
         else:
             keyphrases_rank = keywords_retriever.get_keyphrases_rank(pdf_text)
@@ -120,12 +120,12 @@ class KeywordsArticlesController(Resource):
         if not keyphrases_rank:
             return make_response(jsonify({'message': 'A JSON must be provided'}), 400)
 
-        hashed_json = hashlib.sha256(json.dumps(keyphrases_rank).encode('utf-8')).hexdigest()
+        hashed_json = xxhash.xxh3_64(json.dumps(keyphrases_rank).encode('utf-8')).hexdigest()
 
         already_processed_keywords_set = ArticlesRepository.does_resource_exist(hashed_json)
 
         if already_processed_keywords_set:
-            print("Keywords set present in articles cache")
+            logging.info("Keywords set present in articles cache")
             return make_response(jsonify({'message': already_processed_keywords_set.references}), 200)
         else:
             response_list = []

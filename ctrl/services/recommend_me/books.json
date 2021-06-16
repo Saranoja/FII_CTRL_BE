@@ -5,7 +5,10 @@
       "graph-algorithms"
     ],
     "books": [
-      "Graph Theory by Reinhard Diestel"
+      {
+        "title": "Graph Theory by Reinhard Diestel",
+        "hash": "edc4d16ca472228b"
+      }
     ]
   },
   {
@@ -14,7 +17,10 @@
       "computer-networks"
     ],
     "books": [
-      "Computer Networking - A Top-Down Approach by James Kurose and Keith Ross"
+      {
+        "title": "Computer Networking - A Top-Down Approach by James Kurose and Keith Ross",
+        "hash": "4d566f6104ee3040"
+      }
     ]
   },
   {
@@ -22,7 +28,10 @@
       "acso"
     ],
     "books": [
-      "Computer Architecture - A Quantitative Approach by John Hennessy and David Patterson"
+      {
+        "title": "Computer Architecture - A Quantitative Approach by John Hennessy and David Patterson",
+        "hash": "f32a14d59fad9d6a"
+      }
     ]
   },
   {
@@ -32,8 +41,14 @@
       "data-structures"
     ],
     "books": [
-      "Introduction to Algorithms by Thomas H Cormen",
-      "The Algorithm Design Manual by Steven S Skiena"
+      {
+        "title": "Introduction to Algorithms by Thomas H Cormen",
+        "hash": "42d4d9261ffe39dc"
+      },
+      {
+        "title": "The Algorithm Design Manual by Steven S Skiena",
+        "hash": "1587070141b9c7f6"
+      }
     ]
   },
   {
@@ -41,7 +56,10 @@
       "is"
     ],
     "books": [
-      "Introduction to Computer Security by Matt Bishop"
+      {
+        "title": "Introduction to Computer Security by Matt Bishop",
+        "hash": "9797e88b86070d79"
+      }
     ]
   },
   {
@@ -49,7 +67,10 @@
       "ic"
     ],
     "books": [
-      "Introduction to Modern Cryptography by Jonathan Katz and Yehuda Lindell"
+      {
+        "title": "Introduction to Modern Cryptography by Jonathan Katz and Yehuda Lindell",
+        "hash": "95be9fcc1f4bdbfe"
+      }
     ]
   },
   {
@@ -57,7 +78,10 @@
       "so"
     ],
     "books": [
-      "Modern Operating Systems by Andew Tanenbaum"
+      {
+        "title": "Modern Operating Systems by Andew Tanenbaum",
+        "hash": "93096368c5b70921"
+      }
     ]
   },
   {
@@ -65,7 +89,10 @@
       "pa"
     ],
     "books": [
-      "The Algorithm Design Manual by Steven S Skiena"
+      {
+        "title": "The Algorithm Design Manual by Steven S Skiena",
+        "hash": "1587070141b9c7f6"
+      }
     ]
   }
 ]
