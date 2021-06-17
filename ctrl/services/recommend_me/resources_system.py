@@ -31,7 +31,7 @@ class PdfBooksController(Resource):
         already_processed_file = ReferencesRepository.does_resource_exist(hashed_pdf)
 
         if already_processed_file:
-            logging.info("File present in refereneces cache")
+            logging.info("File present in references cache")
             return make_response(jsonify({'message': already_processed_file.references}), 200)
         else:
             keyphrases_rank = keywords_retriever.get_keyphrases_rank(pdf_text)
@@ -85,7 +85,8 @@ class PdfArticlesController(Resource):
 
         if already_processed_keywords_set:
             logging.info("Keywords set present in articles cache")
-            return make_response(jsonify({'message': already_processed_keywords_set.references}), 200)
+            return make_response(
+                jsonify({'message': list(map(lambda x: x.reference, already_processed_keywords_set))}), 200)
         else:
             keyphrases_rank = keywords_retriever.get_keyphrases_rank(pdf_text)
             response_list = []
@@ -106,8 +107,9 @@ class PdfArticlesController(Resource):
                 if article not in articles:
                     articles.append(article)
 
-            new_reference = Article(hash=hashed_json, references=articles)
-            ArticlesRepository.add_new_resource(new_reference)
+            for article in articles:
+                new_reference = Article(hash=hashed_json, reference=article)
+                ArticlesRepository.add_new_resource(new_reference)
             return make_response(jsonify({'message': articles}), 200)
 
 
@@ -126,7 +128,7 @@ class KeywordsArticlesController(Resource):
 
         if already_processed_keywords_set:
             logging.info("Keywords set present in articles cache")
-            return make_response(jsonify({'message': already_processed_keywords_set.references}), 200)
+            return make_response(jsonify({'message': list(map(lambda x: x.reference, already_processed_keywords_set))}), 200)
         else:
             response_list = []
 
@@ -146,6 +148,7 @@ class KeywordsArticlesController(Resource):
                 if article not in articles:
                     articles.append(article)
 
-            new_reference = Article(hash=hashed_json, references=articles)
-            ArticlesRepository.add_new_resource(new_reference)
+            for article in articles:
+                new_reference = Article(hash=hashed_json, reference=article)
+                ArticlesRepository.add_new_resource(new_reference)
             return make_response(jsonify({'message': articles}), 200)

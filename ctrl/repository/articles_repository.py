@@ -14,7 +14,7 @@ class ArticlesRepository:
 
     @staticmethod
     def does_resource_exist(hash):
-        resource = Article.query.filter(Article.hash == hash).first()
+        resource = Article.query.filter(Article.hash == hash).all()
         return resource if resource else False
 
     @staticmethod
