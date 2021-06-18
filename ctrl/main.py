@@ -18,7 +18,7 @@ load_dotenv()
 def generate_connection_string():
     try:
         if os.environ['ENGINE'] == 'App_Engine':
-            return f'postgresql://{PGUSER}:{PGPASSWORD}@/{PGDATABASE}?host=/cloudsql/{PGCONNECTION}'
+            return f'postgresql://{PGUSER}:{PGPASSWORD}@{PGCONNECTION}:{PGPORT}/{PGDATABASE}'
     except KeyError:
         return f'postgresql://{PGUSER}:{PGPASSWORD}@{PGLOCALHOST}:{PGPORT}/{PGDATABASE}'
 

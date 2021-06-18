@@ -92,7 +92,7 @@ class GroupsController(Resource):
 
         try:
             DiscussionGroupsRepository.delete_group(group_id)
-            DiscussionGroupsMembersRepository.delete_all_members_from_group(group_id)
+            # DiscussionGroupsMembersRepository.delete_all_members_from_group(group_id)
         except exc.SQLAlchemyError:
             notification_data = {
                 'domain': 'groups',
