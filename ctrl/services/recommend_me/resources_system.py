@@ -128,7 +128,8 @@ class KeywordsArticlesController(Resource):
 
         if already_processed_keywords_set:
             logging.info("Keywords set present in articles cache")
-            return make_response(jsonify({'message': list(map(lambda x: x.reference, already_processed_keywords_set))}), 200)
+            return make_response(jsonify({'message': list(map(lambda x: x.reference, already_processed_keywords_set))}),
+                                 200)
         else:
             response_list = []
 

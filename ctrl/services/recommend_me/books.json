@@ -1,1 +1,98 @@
-[{"subjects": ["ga", "graph-algorithms"], "books": [{"title": "Graph Theory by Reinhard Diestel", "hash": "edc4d16ca472228b"}, {"title": "egerageg by egege", "hash": "fdadbf334a6962f1"}]}, {"subjects": ["cn", "computer-networks"], "books": [{"title": "Computer Networking - A Top-Down Approach by James Kurose and Keith Ross", "hash": "4d566f6104ee3040"}]}, {"subjects": ["acso"], "books": [{"title": "Computer Architecture - A Quantitative Approach by John Hennessy and David Patterson", "hash": "f32a14d59fad9d6a"}]}, {"subjects": ["sd", "structuri-de-date", "data-structures"], "books": [{"title": "Introduction to Algorithms by Thomas H Cormen", "hash": "42d4d9261ffe39dc"}, {"title": "The Algorithm Design Manual by Steven S Skiena", "hash": "1587070141b9c7f6"}]}, {"subjects": ["is"], "books": [{"title": "Introduction to Computer Security by Matt Bishop", "hash": "9797e88b86070d79"}]}, {"subjects": ["ic"], "books": [{"title": "Introduction to Modern Cryptography by Jonathan Katz and Yehuda Lindell", "hash": "95be9fcc1f4bdbfe"}]}, {"subjects": ["so"], "books": [{"title": "Modern Operating Systems by Andew Tanenbaum", "hash": "93096368c5b70921"}]}, {"subjects": ["pa"], "books": [{"title": "The Algorithm Design Manual by Steven S Skiena", "hash": "1587070141b9c7f6"}]}]
+[
+  {
+    "subjects": [
+      "ga",
+      "graph-algorithms"
+    ],
+    "books": [
+      {
+        "title": "Graph Theory by Reinhard Diestel",
+        "hash": "edc4d16ca472228b"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "cn",
+      "computer-networks"
+    ],
+    "books": [
+      {
+        "title": "Computer Networking - A Top-Down Approach by James Kurose and Keith Ross",
+        "hash": "4d566f6104ee3040"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "acso"
+    ],
+    "books": [
+      {
+        "title": "Computer Architecture - A Quantitative Approach by John Hennessy and David Patterson",
+        "hash": "f32a14d59fad9d6a"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "sd",
+      "structuri-de-date",
+      "data-structures"
+    ],
+    "books": [
+      {
+        "title": "Introduction to Algorithms by Thomas H Cormen",
+        "hash": "42d4d9261ffe39dc"
+      },
+      {
+        "title": "The Algorithm Design Manual by Steven S Skiena",
+        "hash": "1587070141b9c7f6"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "is"
+    ],
+    "books": [
+      {
+        "title": "Introduction to Computer Security by Matt Bishop",
+        "hash": "9797e88b86070d79"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "ic"
+    ],
+    "books": [
+      {
+        "title": "Introduction to Modern Cryptography by Jonathan Katz and Yehuda Lindell",
+        "hash": "95be9fcc1f4bdbfe"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "so"
+    ],
+    "books": [
+      {
+        "title": "Modern Operating Systems by Andew Tanenbaum",
+        "hash": "93096368c5b70921"
+      }
+    ]
+  },
+  {
+    "subjects": [
+      "pa"
+    ],
+    "books": [
+      {
+        "title": "The Algorithm Design Manual by Steven S Skiena",
+        "hash": "1587070141b9c7f6"
+      }
+    ]
+  }
+]

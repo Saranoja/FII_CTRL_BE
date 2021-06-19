@@ -1,8 +1,9 @@
-from sqlalchemy import String,JSON
+from sqlalchemy import String, JSON, Integer
 from database_connection import db
 
 
 class Article(db.Model):
     __tablename__ = "Articles"
-    hash = db.Column("hash", String, primary_key=True)
+    id = db.Column("id", Integer, primary_key=True)
+    hash = db.Column("hash", String, nullable=False)
     reference = db.Column("reference", JSON, nullable=False)

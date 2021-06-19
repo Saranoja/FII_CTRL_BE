@@ -13,8 +13,8 @@ class ArticlesRepository:
         return Article.query.all()
 
     @staticmethod
-    def does_resource_exist(hash):
-        resource = Article.query.filter(Article.hash == hash).all()
+    def does_resource_exist(h):
+        resource = Article.query.filter(Article.hash == h).all()
         return resource if resource else False
 
     @staticmethod
