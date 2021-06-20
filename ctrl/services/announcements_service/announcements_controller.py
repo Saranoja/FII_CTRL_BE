@@ -82,7 +82,7 @@ class AnnouncementsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
         }
-        send(notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit("announcements", notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "New announcement posted successfully"}), 202)
 
     @staticmethod
@@ -127,7 +127,9 @@ class AnnouncementsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
         }
-        send(notification_data, broadcast=True, namespace='', to=int(group_id))
+        print("sending notification")
+        print(sids)
+        emit("announcements", notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "Announcement updated successfully"}), 200)
 
     @staticmethod
@@ -169,5 +171,5 @@ class AnnouncementsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now(CURRENT_TIMEZONE).timestamp(),
         }
-        send(notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit("announcements", notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "Announcement deleted successfully"}), 200)

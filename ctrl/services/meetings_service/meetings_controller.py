@@ -105,7 +105,7 @@ class MeetingsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('meetings', notification_data, broadcast=True, namespace='', to=int(meeting_data['group_id']))
+        emit('meetings', notification_data, broadcast=True, namespace='', to=str(meeting_data['group_id']))
         return make_response(jsonify({"message": "New meeting posted successfully"}), 202)
 
     @staticmethod
@@ -115,7 +115,7 @@ class MeetingsController(Resource):
 
         meeting = MeetingsRepository.get_meeting_for_id(meeting_id)
         meeting_author_id = meeting.author_id
-        group_id = meeting.group_id
+        group_id = str(meeting.group_id)
 
         if not current_user.teaching \
                 or not DiscussionGroupsMembersRepository.is_member_in_group(current_user.id,
@@ -152,7 +152,7 @@ class MeetingsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('meetings', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('meetings', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "Meeting updated successfully"}), 200)
 
     @staticmethod
@@ -162,7 +162,7 @@ class MeetingsController(Resource):
 
         meeting = MeetingsRepository.get_meeting_for_id(meeting_id)
         meeting_author_id = meeting.author_id
-        group_id = meeting.group_id
+        group_id = str(meeting.group_id)
 
         if not current_user.teaching \
                 or not DiscussionGroupsMembersRepository.is_member_in_group(current_user.id, group_id) \
@@ -196,5 +196,5 @@ class MeetingsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('meetings', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('meetings', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "Meeting deleted successfully"}), 200)

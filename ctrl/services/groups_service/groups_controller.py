@@ -117,7 +117,7 @@ class GroupsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('groups', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('groups', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({'message': 'Group deleted successfully.'}), 200)
 
     @staticmethod
@@ -161,5 +161,5 @@ class GroupsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('groups', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('groups', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({'message': 'Group updated successfully.'}), 200)

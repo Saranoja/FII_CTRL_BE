@@ -18,14 +18,18 @@ def upload_file(file, directory):
     except IndexError:
         file_extension = ''
 
-    pdf_file = io.BytesIO(file.read())
-    pdf_text = extract_text(pdf_file, maxpages=7)
-    hashed_json = xxhash.xxh3_64(json.dumps(pdf_text).encode('utf-8')).hexdigest()
+    does_file_exist = False
+    filename = f'{directory}{file.filename}{file_extension}'
 
-    does_file_exist = storage.Blob(bucket=bucket, name=f'{directory}{hashed_json}{file_extension}').exists(gcs)
+    if file.content_type == 'application/pdf':
+        pdf_file = io.BytesIO(file.read())
+        pdf_text = extract_text(pdf_file, maxpages=7)
+        hashed_json = xxhash.xxh3_64(json.dumps(pdf_text).encode('utf-8')).hexdigest()
 
-    filename = f'{directory}{hashed_json}{file_extension}'
-    public_url = f'{BUCKET_URL}{directory}{hashed_json}'
+        does_file_exist = storage.Blob(bucket=bucket, name=f'{directory}{hashed_json}{file_extension}').exists(gcs)
+
+        filename = f'{directory}{hashed_json}{file_extension}'
+        public_url = f'{BUCKET_URL}{directory}{hashed_json}'
 
     if not does_file_exist:
         file.seek(0, 0)

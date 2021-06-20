@@ -1,7 +1,10 @@
 from flask_restful import Resource
 from sqlalchemy import exc
 from flask import make_response, jsonify, request
-from repository import DiscussionGroupsMembersRepository, UsersRepository
+from repository import DiscussionGroupsMembersRepository, UsersRepository, DiscussionGroupsRepository
+from flask_socketio import emit
+from datetime import datetime
+from io_socket import sids
 from services.auth.token_config import token_required
 
 
@@ -51,8 +54,41 @@ class GroupsMembersController(Resource):
             for uid in new_users_ids:
                 DiscussionGroupsMembersRepository.add_new_member_to_group(uid, group_id)
         except exc.SQLAlchemyError:
+            notification_data = {
+                'domain': 'members',
+                'event': 'put',
+                'type': 'error',
+                'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
+                'group_id': group_id,
+                'author': f'{current_user.first_name} {current_user.last_name}',
+                'author_id': current_user.id,
+                'timestamp': datetime.now().timestamp(),
+            }
+            emit('error_members', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             return make_response(jsonify({'message': 'Error while adding users to group.'}), 503)
 
+        notification_data = {
+            'domain': 'members',
+            'event': 'put',
+            'type': 'success',
+            'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
+            'group_id': group_id,
+            'author': f'{current_user.first_name} {current_user.last_name}',
+            'author_id': current_user.id,
+            'timestamp': datetime.now().timestamp(),
+        }
+        new_user_sids = []
+        try:
+            for new_user_id in new_users_ids:
+                new_user_sids.append(sids[new_user_id])
+            new_user_sids.append(sids[current_user.id])
+        except KeyError:
+            pass  # request author went offline in the meantime
+
+        print(new_user_sids)
+        print(sids)
+        print(current_user)
+        emit('members', notification_data, broadcast=True, namespace='', to=new_user_sids)
         return make_response(jsonify({'message': 'Users added successfully.'}), 200)
 
     @staticmethod
@@ -69,6 +105,36 @@ class GroupsMembersController(Resource):
             for uid in deleting_users_ids:
                 DiscussionGroupsMembersRepository.delete_member_from_group(uid, group_id)
         except exc.SQLAlchemyError:
+            notification_data = {
+                'domain': 'members',
+                'event': 'delete',
+                'type': 'error',
+                'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
+                'group_id': group_id,
+                'author': f'{current_user.first_name} {current_user.last_name}',
+                'author_id': current_user.id,
+                'timestamp': datetime.now().timestamp(),
+            }
+            emit('error_members', notification_data, broadcast=True, namespace='', to=sids[current_user.id])
             return make_response(jsonify({'message': 'Error while deleting user from group.'}), 503)
 
+        notification_data = {
+            'domain': 'members',
+            'event': 'delete',
+            'type': 'success',
+            'group': DiscussionGroupsRepository.get_discussion_group_for_id(group_id).name,
+            'group_id': group_id,
+            'author': f'{current_user.first_name} {current_user.last_name}',
+            'author_id': current_user.id,
+            'timestamp': datetime.now().timestamp(),
+        }
+        deleting_user_sids = []
+        try:
+            for new_user_id in deleting_users_ids:
+                deleting_user_sids.append(sids[new_user_id])
+            deleting_user_sids.append(sids[current_user.id])
+        except KeyError:
+            pass  # request author went offline in the meantime
+        emit('members', notification_data, broadcast=True, namespace='',
+             to=deleting_user_sids)
         return make_response(jsonify({'message': 'Users removed successfully.'}), 200)

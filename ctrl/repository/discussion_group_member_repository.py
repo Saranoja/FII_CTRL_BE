@@ -31,7 +31,7 @@ class DiscussionGroupsMembersRepository:
     def delete_member_from_group(user_id, group_id):
         try:
             target_member = DiscussionGroupMember.query.filter(
-                DiscussionGroupMember.user_id == user_id and DiscussionGroupMember.discussion_group_id == group_id).first()
+                DiscussionGroupMember.user_id == user_id, DiscussionGroupMember.discussion_group_id == group_id).first()
             db.session.delete(target_member)
             db.session.commit()
         except exc.SQLAlchemyError:

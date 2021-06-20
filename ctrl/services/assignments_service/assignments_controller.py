@@ -92,7 +92,7 @@ class AssignmentsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('assignment', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('assignment', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "New assignment posted successfully"}), 202)
 
     @staticmethod
@@ -133,7 +133,7 @@ class AssignmentsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('assignment', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('assignment', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "Assignment deleted successfully"}), 200)
 
     @staticmethod
@@ -178,5 +178,5 @@ class AssignmentsController(Resource):
             'author_id': current_user.id,
             'timestamp': datetime.now().timestamp(),
         }
-        emit('assignment', notification_data, broadcast=True, namespace='', to=int(group_id))
+        emit('assignment', notification_data, broadcast=True, namespace='', to=group_id)
         return make_response(jsonify({"message": "Assignment updated successfully"}), 200)
